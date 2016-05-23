@@ -20,14 +20,11 @@ $ddfHeaderText | Out-File -FilePath:$ddfFileName -Encoding:ASCII -Force
 
 dir $Path -Recurse | ? { !$_.psiscontainer } | % {
     $file = $_
-    $path = $file.FullName.Replace($folder.FullName + "\", "").Replace($file.Name, "")
-    if ($path -eq "\") { $path = "" }
-    if ($path.Length -gt 0) {
-        (".set DestinationDir={0}") -f $path | Out-File -FilePath:$ddfFileName -Encoding:ASCII -Append
-    }
+    $path = $file.FullName.Replace($folder.FullName, "").Replace($file.Name, "").Trim("\")
+    if ($path.Length -gt 0) { (".set DestinationDir={0}") -f $path | Out-File -FilePath:$ddfFileName -Encoding:ASCII -Append }
     ("'{0}'" -f $file.FullName) | Out-File -FilePath:$ddfFileName -Encoding:ASCII -Append
 }
 
-makecab /F $ddfFileName #/V3
+makecab /F $ddfFileName /V1
 
 $ddfFileName, "setup.inf", "setup.rpt" | Remove-Item

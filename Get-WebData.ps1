@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]            
+[CmdletBinding()]            
 Param(            
     [Parameter(Position=0, Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true)][string]$url,
     [Switch]$useDefaultCredentials = $false
